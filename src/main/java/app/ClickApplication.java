@@ -1,28 +1,32 @@
 package app;
 
+import java.io.IOException;
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class ClickApplication extends Application {
-    // application for acceptance tests.
-    @Override public void start(Stage stage) {
-        Parent sceneRoot = new ClickPane();
-        Scene scene = new Scene(sceneRoot, 100, 100);
+public class ClickApplication  extends Application {
+    
+    private static Scene scene;
+
+    @Override
+    public void start(Stage stage) throws IOException {
+        scene = new Scene(loadFXML("secondary"), 600,400);
         stage.setScene(scene);
+        stage.setTitle("HCI");
         stage.show();
     }
 
-    // scene object for unit tests
-    public static class ClickPane extends StackPane {
-        public ClickPane() {
-            super();
-            Button button = new Button("click me!");
-            button.setOnAction(actionEvent -> button.setText("clicked!"));
-            getChildren().add(button);
-        }
+    //FXMLLoader will automatically inject values defined in the FXML documents into corresponding references in the controller class.
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(ClickApplication.class.getResource("/secondary.fxml"));
+        return fxmlLoader.load();
+    }
+
+    public static void main(String[] args) {
+        launch();
     }
 }
